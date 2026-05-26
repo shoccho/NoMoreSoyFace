@@ -1,0 +1,34 @@
+{
+  "manifest_version": 3,
+  "name": "FocusTube — Distraction-Free Thumbnails",
+  "short_name": "FocusTube",
+  "version": "1.2.0",
+  "description": "Hides distracting thumbnails on YouTube. Detects faces and people on-device and blurs them so you can focus on the topics you actually came for.",
+  "permissions": ["storage", "offscreen"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "host_permissions": [
+    "https://www.youtube.com/*",
+    "https://i.ytimg.com/*",
+    "https://i9.ytimg.com/*",
+    "https://storage.googleapis.com/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "FocusTube"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.youtube.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["models/*"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
