@@ -21,6 +21,30 @@ It is also kind of the opposite of the old MrBeast-style thumbnail gag extension
 - **Local-first privacy**: no analytics, no telemetry, and no uploaded images.
 - **Toolbar status**: the extension icon indicates inactive, loading/not-ready, active, or off.
 
+
+
+## Screenshots
+
+Popup
+
+<img width="300" height="600" alt="image" src="https://github.com/user-attachments/assets/5fba86b3-7e65-4b4a-b123-fee8c5addcd4" />
+
+Off
+
+<img width="800" height="500" alt="image" src="https://github.com/user-attachments/assets/676cfdc0-8cee-4db2-95c3-694a20d080de" />
+
+On (both genders)
+
+<img width="800" height="500" alt="image" src="https://github.com/user-attachments/assets/f1d33318-fbcf-4905-8831-0b379d77a639" />
+
+
+On (Female only)
+
+<img width="800" height="500" alt="image" src="https://github.com/user-attachments/assets/ba84d5c4-ed26-4dd3-a8f6-1a3cc6ec9428" />
+
+
+
+
 ## How It Works
 
 NoMoreSoyFace uses a Manifest V3 content script to watch YouTube pages for thumbnail images from `i.ytimg.com`. Candidate thumbnails are queued and sent to a shared offscreen document, where the ML models run.
@@ -64,6 +88,7 @@ The npm setup script hydrates `vendor/` and `models/` locally. Those directories
 | Blur strength | Sets the CSS blur radius. |
 | Reset | Restores the default settings. |
 
+
 ## Privacy
 
 NoMoreSoyFace is designed to run locally.
@@ -88,26 +113,6 @@ This is useful, but it is not magic.
 
 ## Development
 
-The important files are:
-
-```text
-manifest.json         Chrome extension manifest
-background.js         Service worker, toolbar state, offscreen routing
-content.js            YouTube DOM scanner, queue, cache, blur application
-offscreen.html        Shared offscreen inference document
-offscreen.js          Model loading and thumbnail analysis
-popup.html            Extension popup UI
-popup.js              Settings persistence and popup status
-bridge.js             Exposes face-api's bundled tf instance to coco-ssd
-package.json          npm dependencies and asset hydration scripts
-package-lock.json     Locked npm dependency graph
-scripts/              Local setup/build helper scripts
-vendor/               Generated browser ML bundles, ignored by git
-models/               Generated face-api model files, ignored by git
-```
-
-After editing extension code, reload the unpacked extension in `chrome://extensions` and refresh any open YouTube tabs.
-
 If the generated assets are missing, run:
 
 ```bash
@@ -121,16 +126,6 @@ npm run build:chrome
 ```
 
 The build output is written to `dist/chrome`. Firefox packaging can be added later as a separate target without changing the Chrome output shape.
-
-## Roadmap Ideas
-
-- Detector pool/load-balancer for high thumbnail volume.
-- More robust body gender classification.
-- Better model selection or a newer browser-friendly detector.
-- Per-channel allow/block controls.
-- Optional blur styles such as pixelate or grayscale.
-
-See [DETECTOR_POOL_PLAN.md](./DETECTOR_POOL_PLAN.md) for notes on a future multi-lane inference design.
 
 ## License
 
