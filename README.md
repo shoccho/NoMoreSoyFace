@@ -1,14 +1,14 @@
-# FocusTube
+# NoMoreSoyFace
 
-Distraction-free YouTube thumbnails.
+Blur the thumbnail bait out of YouTube.
 
-FocusTube is a Chrome extension that detects faces and people in YouTube thumbnails and blurs them locally in your browser. It is built for people who want to browse by topic, title, and actual interest instead of being pulled around by exaggerated thumbnail expressions.
+NoMoreSoyFace is a Chrome extension that detects faces and people in YouTube thumbnails and blurs them locally in your browser. It is built for people who want to browse by topic, title, and actual interest instead of being pulled around by exaggerated thumbnail expressions.
 
 ## Why This Exists
 
 The idea came from a very specific kind of internet fatigue: looking at YouTubers making the same annoying over-the-top expressions on every thumbnail started to feel actively irritating.
 
-It is also kind of the opposite of the old MrBeast-style thumbnail gag extensions, where his expression gets pasted onto everything. FocusTube goes the other direction: instead of adding more face chaos to YouTube, it removes the thumbnail bait so the page becomes quieter.
+It is also kind of the opposite of the old MrBeast-style thumbnail gag extensions, where his expression gets pasted onto everything. NoMoreSoyFace goes the other direction: instead of adding more face chaos to YouTube, it removes the thumbnail bait so the page becomes quieter.
 
 ## Features
 
@@ -23,7 +23,7 @@ It is also kind of the opposite of the old MrBeast-style thumbnail gag extension
 
 ## How It Works
 
-FocusTube uses a Manifest V3 content script to watch YouTube pages for thumbnail images from `i.ytimg.com`. Candidate thumbnails are queued and sent to a shared offscreen document, where the ML models run.
+NoMoreSoyFace uses a Manifest V3 content script to watch YouTube pages for thumbnail images from `i.ytimg.com`. Candidate thumbnails are queued and sent to a shared offscreen document, where the ML models run.
 
 The extension currently uses:
 
@@ -66,7 +66,7 @@ The npm setup script hydrates `vendor/` and `models/` locally. Those directories
 
 ## Privacy
 
-FocusTube is designed to run locally.
+NoMoreSoyFace is designed to run locally.
 
 The extension requests access to:
 

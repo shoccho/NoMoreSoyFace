@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "FocusTube — Distraction-Free Thumbnails",
-  "short_name": "FocusTube",
+  "name": "NoMoreSoyFace — YouTube Thumbnail Face Blur",
+  "short_name": "NoMoreSoyFace",
   "version": "1.2.0",
   "description": "Hides distracting thumbnails on YouTube. Detects faces and people on-device and blurs them so you can focus on the topics you actually came for.",
   "permissions": ["storage", "offscreen"],
@@ -16,7 +16,7 @@
   ],
   "action": {
     "default_popup": "popup.html",
-    "default_title": "FocusTube"
+    "default_title": "NoMoreSoyFace"
   },
   "content_scripts": [
     {

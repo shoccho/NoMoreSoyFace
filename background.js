@@ -5,25 +5,25 @@ const ACTION_STATES = {
     badge: '',
     badgeColor: '#64748b',
     iconColor: '#64748b',
-    title: 'FocusTube: inactive'
+    title: 'NoMoreSoyFace: inactive'
   },
   notReady: {
     badge: '...',
     badgeColor: '#f59e0b',
     iconColor: '#f59e0b',
-    title: 'FocusTube: not ready'
+    title: 'NoMoreSoyFace: not ready'
   },
   active: {
     badge: 'ON',
     badgeColor: '#22c55e',
     iconColor: '#22c55e',
-    title: 'FocusTube: active'
+    title: 'NoMoreSoyFace: active'
   },
   off: {
     badge: 'OFF',
     badgeColor: '#6b7280',
     iconColor: '#6b7280',
-    title: 'FocusTube: off'
+    title: 'NoMoreSoyFace: off'
   }
 };
 

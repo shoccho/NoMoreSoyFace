@@ -44,7 +44,7 @@ for (const file of modelFiles) {
   await download(`${modelBase}/${file}`, join(modelsDir, file));
 }
 
-console.log('FocusTube assets ready.');
+console.log('NoMoreSoyFace assets ready.');
 
 async function copyFirstExisting(candidates, destination) {
   for (const candidate of candidates) {

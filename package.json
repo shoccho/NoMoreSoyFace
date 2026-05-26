@@ -1,7 +1,7 @@
 {
-  "name": "focustube",
+  "name": "nomoresoyface",
   "version": "1.2.0",
-  "description": "A local-first Chrome extension that blurs distracting faces and people in YouTube thumbnails.",
+  "description": "A local-first Chrome extension that blurs distracting YouTuber faces and people in thumbnails.",
   "private": true,
   "license": "MIT",
   "scripts": {
