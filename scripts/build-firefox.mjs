@@ -4,20 +4,15 @@ import { fileURLToPath } from 'node:url';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const srcDir = join(root, 'src');
-const outDir = resolve(root, 'dist/chrome');
+const outDir = resolve(root, 'dist/firefox');
 
 const srcFiles = [
-  'manifest.json',
-  'background.js',
+  'background-firefox.js',
   'content.js',
-  'offscreen.html',
-  'offscreen.js',
   'popup.html',
   'popup.js',
   'bridge.js',
 ];
-
-const rootFiles = ['LICENSE'];
 
 const directories = [
   'vendor',
@@ -29,19 +24,20 @@ assertInsideRoot(outDir);
 await rm(outDir, { recursive: true, force: true });
 await mkdir(outDir, { recursive: true });
 
+// Firefox manifest replaces manifest.json at the extension root
+await cp(join(srcDir, 'manifest-firefox.json'), join(outDir, 'manifest.json'));
+
 for (const file of srcFiles) {
   await cp(join(srcDir, file), join(outDir, file));
 }
 
-for (const file of rootFiles) {
-  await cp(join(root, file), join(outDir, file));
-}
+await cp(join(root, 'LICENSE'), join(outDir, 'LICENSE'));
 
 for (const directory of directories) {
   await cp(join(root, directory), join(outDir, directory), { recursive: true });
 }
 
-console.log(`Chrome extension build written to ${relative(root, outDir).replaceAll('\\', '/')}`);
+console.log(`Firefox extension build written to ${relative(root, outDir).replaceAll('\\', '/')}`);
 
 function assertInsideRoot(target) {
   const rel = relative(root, target);
