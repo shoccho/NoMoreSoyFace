@@ -1,3 +1,7 @@
+// Firefox exposes promise-based APIs on `browser`; Chrome MV3 returns promises
+// from `chrome`. Use whichever is available for the await-based tabs calls.
+const ext = typeof browser !== 'undefined' ? browser : chrome;
+
 const defaults = {
   enabled: true,
   blurFaces: true,
@@ -149,13 +153,13 @@ function setStatus(state, text) {
 
 async function refreshStatus() {
   try {
-    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    const [tab] = await ext.tabs.query({ active: true, currentWindow: true });
     if (!tab || !/^https:\/\/(www\.)?youtube\.com\//.test(tab.url || '')) {
       setStatus('err', 'Open YouTube');
       document.getElementById('stat').textContent = 'inactive on this page';
       return;
     }
-    const resp = await chrome.tabs.sendMessage(tab.id, { type: 'focustube:status' });
+    const resp = await ext.tabs.sendMessage(tab.id, { type: 'focustube:status' });
     if (!resp) throw new Error('no response');
     const faceRequired = resp.faceWanted || resp.bodyGenderWanted;
     const bodyRequired = resp.bodyWanted;

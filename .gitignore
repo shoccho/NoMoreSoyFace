@@ -28,8 +28,10 @@ models/
 dist/
 build/
 out/
+release/
 web-ext-artifacts/
 *.zip
+*.xpi
 *.crx
 *.pem
 

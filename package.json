@@ -7,9 +7,10 @@
   "scripts": {
     "postinstall": "node scripts/hydrate-assets.mjs",
     "prepare-assets": "node scripts/hydrate-assets.mjs",
-    "build": "npm run build:chrome",
+    "build": "npm run build:chrome && npm run build:firefox",
     "build:chrome": "npm run prepare-assets && node scripts/build-chrome.mjs",
-    "check": "node --check background.js && node --check content.js && node --check offscreen.js && node --check popup.js"
+    "build:firefox": "npm run prepare-assets && node scripts/build-firefox.mjs",
+    "check": "node --check src/background.js && node --check src/content.js && node --check src/offscreen.js && node --check src/popup.js && node --check src/background-firefox.js"
   },
   "dependencies": {
     "@tensorflow-models/coco-ssd": "2.2.3",

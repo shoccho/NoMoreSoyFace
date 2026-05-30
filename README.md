@@ -2,7 +2,7 @@
 
 Blur the thumbnail bait out of YouTube.
 
-NoMoreSoyFace is a Chrome extension that detects faces and people in YouTube thumbnails and blurs them locally in your browser. It is built for people who want to browse by topic, title, and actual interest instead of being pulled around by exaggerated thumbnail expressions.
+NoMoreSoyFace is a browser extension (Chrome and Firefox) that detects faces and people in YouTube thumbnails and blurs them locally in your browser. It is built for people who want to browse by topic, title, and actual interest instead of being pulled around by exaggerated thumbnail expressions.
 
 ## Why This Exists
 
@@ -16,7 +16,7 @@ It is also kind of the opposite of the old MrBeast-style thumbnail gag extension
 - **Body blurring**: detects people in thumbnails, including full-body and half-body shots.
 - **Gender mode**: choose `Male`, `Both`, or `Female` for face and body filtering.
 - **Adjustable thresholds**: tune face/gender confidence and person detection confidence.
-- **Shared model instance**: runs inference through one offscreen extension document instead of loading models in every YouTube tab.
+- **Shared model instance**: runs inference once in the background (a Manifest V3 offscreen document on Chrome, a persistent background page on Firefox) instead of loading models in every YouTube tab.
 - **Thumbnail cache**: avoids re-processing the same YouTube thumbnail repeatedly.
 - **Local-first privacy**: no analytics, no telemetry, and no uploaded images.
 - **Toolbar status**: the extension icon indicates inactive, loading/not-ready, active, or off.
@@ -47,7 +47,9 @@ On (Female only)
 
 ## How It Works
 
-NoMoreSoyFace uses a Manifest V3 content script to watch YouTube pages for thumbnail images from `i.ytimg.com`. Candidate thumbnails are queued and sent to a shared offscreen document, where the ML models run.
+NoMoreSoyFace uses a content script to watch YouTube pages for thumbnail images from `i.ytimg.com`. Candidate thumbnails are queued and sent to a shared background context, where the ML models run.
+
+On Chrome (Manifest V3) inference happens in an offscreen document. On Firefox (Manifest V2) the same code runs in a persistent background page, which has the DOM access the models need. The shared `content.js` and `popup.js` work on both browsers.
 
 The extension currently uses:
 
@@ -69,11 +71,40 @@ The npm setup script hydrates `vendor/` and `models/` locally. Those directories
 
    `npm install` runs `npm run prepare-assets` automatically. You can also run it manually if you need to re-create `vendor/` or `models/`.
 
-3. Open Chrome and go to `chrome://extensions`.
-4. Enable **Developer mode**.
-5. Click **Load unpacked**.
-6. Select this project folder.
-7. Open YouTube and wait for the popup status to show `Ready`.
+Each browser loads from its own build output under `dist/`.
+
+### Chrome
+
+1. Build the Chrome bundle:
+
+   ```bash
+   npm run build:chrome
+   ```
+
+2. Open Chrome and go to `chrome://extensions`.
+3. Enable **Developer mode**.
+4. Click **Load unpacked**.
+5. Select the generated `dist/chrome` folder.
+6. Open YouTube and wait for the popup status to show `Ready`.
+
+### Firefox
+
+1. Build the Firefox bundle:
+
+   ```bash
+   npm run build:firefox
+   ```
+
+2. Open Firefox and go to `about:debugging`.
+3. Click **This Firefox**.
+4. Click **Load Temporary Add-on…**.
+5. Select the `dist/firefox/manifest.json` file.
+6. Open YouTube and wait for the popup status to show `Ready`.
+
+   Temporary add-ons are removed when Firefox restarts. After changing code, run
+   `npm run build:firefox` again and click **Reload** next to the add-on. For a
+   persistent install you need a signed build (for example via
+   [`web-ext sign`](https://extensionworkshop.com/documentation/develop/getting-started-with-web-ext/)).
 
 ## Settings
 
@@ -113,19 +144,33 @@ This is useful, but it is not magic.
 
 ## Development
 
+Source files live in `src/`. Build scripts and asset hydration live in `scripts/`.
+
 If the generated assets are missing, run:
 
 ```bash
 npm run prepare-assets
 ```
 
-To create a Chrome-ready extension folder:
+To create the extension folders:
 
 ```bash
-npm run build:chrome
+npm run build:chrome    # writes dist/chrome
+npm run build:firefox   # writes dist/firefox
+npm run build           # both targets
 ```
 
-The build output is written to `dist/chrome`. Firefox packaging can be added later as a separate target without changing the Chrome output shape.
+The Chrome build uses `src/manifest.json` (Manifest V3 with an offscreen document).
+The Firefox build uses `src/manifest-firefox.json` (Manifest V2 with a persistent
+background page) and `src/background-firefox.js`, which combines the Chrome
+background and offscreen inference into one context. `content.js`, `popup.js`, and
+the model/vendor assets are shared between both builds.
+
+To syntax-check the source:
+
+```bash
+npm run check
+```
 
 ## License
 

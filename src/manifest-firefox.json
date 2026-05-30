@@ -1,0 +1,42 @@
+{
+  "manifest_version": 2,
+  "name": "NoMoreSoyFace — YouTube Thumbnail Face Blur",
+  "short_name": "NoMoreSoyFace",
+  "version": "1.2.0",
+  "description": "Hides distracting thumbnails on YouTube. Detects faces and people on-device and blurs them so you can focus on the topics you actually came for.",
+  "permissions": [
+    "storage",
+    "tabs",
+    "https://www.youtube.com/*",
+    "https://i.ytimg.com/*",
+    "https://i9.ytimg.com/*",
+    "https://storage.googleapis.com/*"
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "nomoresoyface@shoccho",
+      "strict_min_version": "91.0"
+    }
+  },
+  "background": {
+    "scripts": [
+      "vendor/face-api.min.js",
+      "bridge.js",
+      "vendor/coco-ssd.min.js",
+      "background-firefox.js"
+    ],
+    "persistent": true
+  },
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_title": "NoMoreSoyFace"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.youtube.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": ["models/*"]
+}
